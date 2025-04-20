@@ -31,6 +31,7 @@ export const DifficultySelection = ({
         <ul className="overflow-hidden mt-5">
           {difficultyItems.map(({ type, label }) => (
             <li
+              data-testid={`game-complexity-${type}`}
               key={type}
               onClick={() =>
                 difficultyChosen({

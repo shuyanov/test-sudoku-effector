@@ -12,7 +12,7 @@ export const HomePage = () => {
         <Title size="sm" className="text-center pb-36">
           Кроссворд из цифр
         </Title>
-        <Button onClick={open} className="w-full max-w-[95%] sm:max-w-full">
+        <Button data-testid="new-game" onClick={open} className="w-full max-w-[95%] sm:max-w-full">
           Новая игра
         </Button>
       </div>

@@ -1,0 +1,34 @@
+name: Run Selenium Tests
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start app
+        run: npm run dev &
+        env:
+          CI: true
+
+      - name: Wait for app to be ready
+        run: |
+          echo "Waiting for dev server..."
+          npx wait-on http://localhost:5173
+
+      - name: Run Selenium tests
+        run: npx mocha test/timer.test.js

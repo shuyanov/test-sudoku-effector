@@ -15,7 +15,7 @@ export function Icon({ name, className, viewBox, ...props }: IconProps) {
 
   return (
     <svg className={clsx('icon', className)} viewBox={viewBox} focusable="false" aria-hidden {...props}>
-      <use xlinkHref={`/sprites/${spriteName}.svg#${iconName}`} />
+      <use data-testid="svg-timer" xlinkHref={`/sprites/${spriteName}.svg#${iconName}`} />
     </svg>
   );
 }
