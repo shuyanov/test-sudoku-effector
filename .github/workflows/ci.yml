@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install mocha-junit-reporter
+        run: npm install mocha-junit-reporter
+
       - name: Start server
         run: npm run dev &
 
@@ -31,7 +34,7 @@ jobs:
 
       # Генерация JUnit XML отчета
       - name: Run Selenium tests and generate JUnit XML report
-        run: npx mocha test/timer.test.js --reporter node_modules/mocha-junit-reporter --reporter-options mochaFile=reports/mocha-test-results.xml
+        run: npx mocha test/timer.test.js --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha-test-results.xml
 
       # Загрузка результатов в Test IT
       - name: Submit results
