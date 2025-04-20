@@ -41,4 +41,8 @@ jobs:
           CI: true
 
       - name: Run Selenium tests
-        run: npx mocha test/timer.test.js
+        run: |
+          GOOGLE_CHROME_BIN=/usr/bin/google-chrome-stable
+          GOOGLE_CHROME_DRIVER=/usr/local/bin/chromedriver
+          npx mocha test/timer.test.js
+        env: DISPLAY=:99.0
