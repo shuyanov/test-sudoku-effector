@@ -20,11 +20,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set up ChromeDriver
-        uses: actions/setup-chromedriver@v2
-        with:
-          chromedriver-version: 'latest'
-
       - name: Run Selenium tests and generate report
         run: npx mocha --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=index,quiet=true
 
