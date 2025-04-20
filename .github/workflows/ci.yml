@@ -37,3 +37,14 @@ jobs:
           curl -X POST "https://api.testit.com/submit-results" \
             -H "Authorization: Bearer ${{ secrets.TESTIT_API_KEY }}" \
             -F "file=@reports/mocha-report.json"
+
+      - name: Submit results
+        if: always()
+        run: |
+          pip install testit-cli
+          testit results import \
+            --url secrets.TESTIT_API_KEY \
+            --project-id 0195bd40-8dbc-7dec-829d-705cfca339a9 \
+            --configuration-id 15dbb164-c1aa-4cbf-830c-8c01ae14f4fb \
+            --testrun-name "GitHub test run" \
+            --results results/test-results.xml
