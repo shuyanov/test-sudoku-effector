@@ -2,11 +2,7 @@ name: Run Selenium Tests and Generate Report
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [master]
 
 jobs:
   run-selenium:
