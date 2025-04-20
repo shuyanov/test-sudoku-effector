@@ -1,15 +1,15 @@
-name: Run Selenium Tests and Generate Report
+name: Run Selenium Tests with Test IT Integration
 
 on:
   push:
-    branches: [master]
+    branches: ['master']
 
 jobs:
-  run-selenium:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -18,26 +18,27 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install mocha-junit-reporter
 
-      - name: Install mocha-junit-reporter
-        run: npm install mocha-junit-reporter
-
-      - name: Start server
+      - name: Start application server
         run: npm run dev &
 
       - name: Wait for server to start
         run: sleep 10
 
-      - name: Install ChromeDriver
-        run: npm install chromedriver
-
-      # Генерация JUnit XML отчета
       - name: Run Selenium tests and generate JUnit XML report
-        run: npx mocha test/timer.test.js --reporter mocha-junit-reporter --reporter-options mochaFile=results/mocha-test-results.xml
+        run: |
+          mkdir -p reports
+          npx mocha test/timer.test.js \
+            --reporter mocha-junit-reporter \
+            --reporter-options mochaFile=reports/mocha-test-results.xml
 
-      # Загрузка результатов в Test IT
-      - name: Submit results
+      - name: Print test report (for debugging)
+        run: cat reports/mocha-test-results.xml || echo "No report found"
+
+      - name: Install Test IT CLI and submit test results
         if: always()
         run: |
           pip install testit-cli
