@@ -29,9 +29,11 @@ jobs:
       - name: Install ChromeDriver
         run: npm install chromedriver
 
-      - name: Run Selenium tests and generate report
-        run: npx mocha test/timer.test.js --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mocha-report.json
+      # Генерация JUnit XML отчета
+      - name: Run Selenium tests and generate JUnit XML report
+        run: npx mocha test/timer.test.js --reporter node_modules/mocha-junit-reporter --reporter-options mochaFile=reports/mocha-test-results.xml
 
+      # Загрузка результатов в Test IT
       - name: Submit results
         if: always()
         run: |
@@ -41,4 +43,6 @@ jobs:
             --project-id 0195bd40-8dbc-7dec-829d-705cfca339a9 \
             --configuration-id 15dbb164-c1aa-4cbf-830c-8c01ae14f4fb \
             --testrun-name "GitHub test run" \
-            --results results/test-results.xml
+            --results reports
+        env:
+          TMS_TOKEN: ${{ secrets.TESTIT_API_KEY }}
