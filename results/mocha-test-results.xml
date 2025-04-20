@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="3.273" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-04-20T13:43:03" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Timer component" timestamp="2025-04-20T13:43:03" tests="1" file="C:\Users\user\Documents\GitRepo\univer\sudocu\test-sudoku-effector\test\timer.test.js" time="3.272" failures="0">
+    <testcase name="Timer component should render timer and toggle play/pause" time="2.318" classname="should render timer and toggle play/pause">
+    </testcase>
+  </testsuite>
+</testsuites>
