@@ -4,9 +4,11 @@ import { Options } from 'selenium-webdriver/chrome.js';  // Здесь испо�
 
 describe('Timer component', function () {
   let driver;
-  this.timeout(30000);
 
-  before(async () => {
+  this.timeout(30000); // Увеличиваем таймаут до 30 секунд
+
+  before(async function () {
+    this.timeout(30000); // Увеличиваем таймаут до 30 секунд для before hook
     const options = new Options();
     options.addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage');
     driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
@@ -14,7 +16,9 @@ describe('Timer component', function () {
   });
 
   after(async () => {
-    await driver.quit();
+    if (driver) { // Проверяем, что driver существует
+      await driver.quit();
+    }
   });
 
   it('should render timer and toggle play/pause', async () => {

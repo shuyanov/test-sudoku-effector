@@ -20,5 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Start server
+        run: npm run dev &
+
+      - name: Wait for server to start
+        run: sleep 10
+
+      - name: Install ChromeDriver
+        run: npm install chromedriver
+
       - name: Run Selenium tests and generate report
         run: npx mocha test/timer.test.js
