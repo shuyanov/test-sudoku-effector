@@ -1,48 +1,39 @@
-name: Run Selenium Tests
+name: Run Selenium Tests and Generate Report
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  run-selenium:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb
-          sudo apt --fix-broken install
+      - name: Set up ChromeDriver
+        uses: actions/setup-chromedriver@v2
+        with:
+          chromedriver-version: 'latest'
 
-      - name: Install ChromeDriver
-        run: |
-          CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-          wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin
+      - name: Run Selenium tests and generate report
+        run: npx mocha --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=index,quiet=true
 
-      - name: Start app
-        run: npm run dev &
-        env:
-          CI: true
-
-      - name: Run Selenium tests
-        run: |
-          GOOGLE_CHROME_BIN=/usr/bin/google-chrome-stable
-          GOOGLE_CHROME_DRIVER=/usr/local/bin/chromedriver
-          npx mocha test/timer.test.js
-        env: DISPLAY=:99.0
+      - name: Upload Mochawesome report
+        uses: actions/upload-artifact@v3
+        with:
+          name: mochawesome-report
+          path: mochawesome-report

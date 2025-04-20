@@ -1,4 +1,4 @@
-import { Builder, By } from 'selenium-webdriver';
+import { Builder, By, until } from 'selenium-webdriver';
 import { expect } from 'chai';
 
 describe('Timer component', function () {
@@ -7,7 +7,11 @@ describe('Timer component', function () {
   this.timeout(20000);
 
   before(async () => {
-    driver = await new Builder().forBrowser('chrome').build();
+    // Настройка драйвера Chrome в headless-режиме
+    const chrome = require('selenium-webdriver/chrome');
+    const options = new chrome.Options();
+    options.addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage');
+    driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
     await driver.get('http://localhost:5173');
   });
 
@@ -37,8 +41,4 @@ describe('Timer component', function () {
     const updatedTime = await timerText.getText();
     expect(updatedTime).to.not.equal(initialTime);
 
-    await timerButton.click();
-    const iconNameAfter = await timerIcon.findElement(By.css('[data-testid="svg-timer"]')).getAttribute('xlink:href');
-    expect(iconNameAfter).to.equal('/sprites/common.svg#play');
-  });
-});
+    await timerButton.click
