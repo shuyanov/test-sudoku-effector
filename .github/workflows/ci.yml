@@ -32,18 +32,12 @@ jobs:
       - name: Run Selenium tests and generate report
         run: npx mocha test/timer.test.js --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mocha-report.json
 
-      - name: Send test report to testIt
-        run: |
-          curl -X POST "https://api.testit.com/submit-results" \
-            -H "Authorization: Bearer ${{ secrets.TESTIT_API_KEY }}" \
-            -F "file=@reports/mocha-report.json"
-
       - name: Submit results
         if: always()
         run: |
           pip install testit-cli
           testit results import \
-            --url secrets.TESTIT_API_KEY \
+            --url https://team-7lwe.testit.software \
             --project-id 0195bd40-8dbc-7dec-829d-705cfca339a9 \
             --configuration-id 15dbb164-c1aa-4cbf-830c-8c01ae14f4fb \
             --testrun-name "GitHub test run" \
