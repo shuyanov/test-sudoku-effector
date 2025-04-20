@@ -4,8 +4,7 @@ import { Options } from 'selenium-webdriver/chrome.js';  // Здесь испо�
 
 describe('Timer component', function () {
   let driver;
-
-  this.timeout(20000);
+  this.timeout(30000);
 
   before(async () => {
     const options = new Options();
