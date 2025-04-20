@@ -45,8 +45,8 @@ jobs:
           testit results import \
             --url https://team-7lwe.testit.software \
             --project-id 0195bd40-8dbc-7dec-829d-705cfca339a9 \
-            --configuration-id 15dbb164-c1aa-4cbf-830c-8c01ae14f4fb \
-            --testrun-name "GitHub test run" \
+            --configuration-id 0195bd40-8df1-7400-88e8-bff4de2bc540 \
+            --testrun-name "Selenium test run" \
             --results reports
         env:
           TMS_TOKEN: ${{ secrets.TESTIT_API_KEY }}
