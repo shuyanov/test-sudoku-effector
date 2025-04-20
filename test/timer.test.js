@@ -1,14 +1,13 @@
 import { Builder, By } from 'selenium-webdriver';
 import { expect } from 'chai';
-import { Options } from 'selenium-webdriver/chrome.js';  // Здесь используется import вместо require
+import { Options } from 'selenium-webdriver/chrome.js';
 
 describe('Timer component', function () {
   let driver;
 
-  this.timeout(30000); // Увеличиваем таймаут до 30 секунд
+  this.timeout(30000);
 
   before(async function () {
-    this.timeout(30000); // Увеличиваем таймаут до 30 секунд для before hook
     const options = new Options();
     options.addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage');
     driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
@@ -16,7 +15,7 @@ describe('Timer component', function () {
   });
 
   after(async () => {
-    if (driver) { // Проверяем, что driver существует
+    if (driver) {
       await driver.quit();
     }
   });
