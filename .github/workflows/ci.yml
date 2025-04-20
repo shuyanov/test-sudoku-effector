@@ -30,4 +30,10 @@ jobs:
         run: npm install chromedriver
 
       - name: Run Selenium tests and generate report
-        run: npx mocha test/timer.test.js
+        run: npx mocha test/timer.test.js --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mocha-report.json
+
+      - name: Send test report to testIt
+        run: |
+          curl -X POST "https://api.testit.com/submit-results" \
+            -H "Authorization: Bearer ${{ secrets.TESTIT_API_KEY }}" \
+            -F "file=@reports/mocha-report.json"
